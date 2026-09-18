@@ -1,4 +1,4 @@
-# 🌦️ Weather Station Supervision Dashboard
+# 🌦️ Weather Station Supervision Dashboard 
 
 ![Header](https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,100:1a4fa0&height=200&section=header&text=Supervision%20Dashboard&fontSize=38&fontColor=FFFFFF&animation=fadeIn)
 
