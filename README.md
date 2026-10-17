@@ -1,10 +1,10 @@
 <div align="center">
 
-# Weather Station Supervision Dashboard
+# Überwachungs-Dashboard für Wetterstationen
 
-**A web-based administration dashboard for real-time monitoring of a fleet of remote weather stations — built during my technical internship (2026).**
+**Ein webbasiertes Administrations-Dashboard zur Echtzeitüberwachung einer Flotte entfernter Wetterstationen — entwickelt während meines technischen Praktikums (2026).**
 
-[**📸 Screenshots**](#screenshots) · [**🏗️ Architecture**](#architecture) · [**🇩🇪 Deutsch**](README.de.md)
+[**📸 Screenshots**](#screenshots) · [**🏗️ Architektur**](#architektur) · [**🇬🇧 English**](README.en.md)
 
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
@@ -15,168 +15,168 @@
 
 </div>
 
-> **Confidentiality note.** This project was developed for a company during my internship. The source code, the database schema and any real data are intentionally **not** published in this repository. This page documents the project, its architecture and what I learned while building it.
+> **Hinweis zur Vertraulichkeit.** Dieses Projekt wurde während meines Praktikums für ein Unternehmen entwickelt. Der Quellcode, das Datenbankschema und alle echten Daten werden in diesem Repository bewusst **nicht** veröffentlicht. Diese Seite dokumentiert das Projekt, seine Architektur und das, was ich beim Entwickeln gelernt habe.
 
 ---
 
-## Table of Contents
+## Inhaltsverzeichnis
 
-- [Context](#context)
-- [Overview](#overview)
+- [Kontext](#kontext)
+- [Überblick](#überblick)
 - [Screenshots](#screenshots)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Technical Challenges and Learnings](#technical-challenges-and-learnings)
-- [Confidentiality](#confidentiality)
-- [Author](#author)
-- [License](#license)
+- [Funktionen](#funktionen)
+- [Architektur](#architektur)
+- [Tech-Stack](#tech-stack)
+- [Technische Herausforderungen und Erkenntnisse](#technische-herausforderungen-und-erkenntnisse)
+- [Vertraulichkeit](#vertraulichkeit)
+- [Autor](#autor)
+- [Lizenz](#lizenz)
 
 ---
 
-## Context
+## Kontext
 
-The project was developed during a technical internship at a company working in **weather monitoring and IoT sensor networks**. The goal was to build a centralized **web supervision dashboard** that lets technical teams monitor a fleet of remote weather stations in real time: sensor readings, alarms, station health and user access management.
+Das Projekt wurde während eines technischen Praktikums in einem Unternehmen entwickelt, das im Bereich **Wetterüberwachung und IoT-Sensornetzwerke** tätig ist. Ziel war ein zentrales **webbasiertes Überwachungs-Dashboard**, mit dem technische Teams eine Flotte entfernter Wetterstationen in Echtzeit überwachen können: Sensormesswerte, Alarme, Zustand der Stationen und Verwaltung von Benutzerzugriffen.
 
-I worked on the project end to end: from understanding the existing multi-database backend, to designing new PHP pages, to building the front-end dashboard (map, KPIs, alarms, notifications and role-based navigation).
+Ich habe das Projekt von Anfang bis Ende bearbeitet: vom Verständnis des bestehenden Backends mit mehreren Datenbanken über den Entwurf neuer PHP-Seiten bis zum Aufbau des Frontend-Dashboards (Karte, Kennzahlen, Alarme, Benachrichtigungen und rollenbasierte Navigation).
 
 ---
 
-## Overview
+## Überblick
 
-The dashboard is the single entry point for the technical and support team. From it, an operator can:
+Das Dashboard ist der zentrale Einstiegspunkt für das technische Team und den Support. Von dort aus kann ein Bediener:
 
-- See at a glance how many stations are online, how many alarms are active and whether all backend services are healthy
-- Locate every station on an interactive map, color-coded by status
-- Drill down into a specific station's variables, history and alarms
-- Manage users, roles and permissions
-- Follow notifications in real time (new alarms and events)
+- auf einen Blick sehen, wie viele Stationen online sind, wie viele Alarme aktiv sind und ob alle Backend-Dienste fehlerfrei laufen
+- jede Station auf einer interaktiven Karte lokalisieren, farblich nach Status gekennzeichnet
+- die Variablen, den Verlauf und die Alarme einer bestimmten Station im Detail aufrufen
+- Benutzer, Rollen und Berechtigungen verwalten
+- Benachrichtigungen in Echtzeit verfolgen (neue Alarme und Ereignisse)
 
 ---
 
 ## Screenshots
 
-| Global overview and map | Stations list | Alarms management |
+| Gesamtübersicht und Karte | Stationsliste | Alarmverwaltung |
 |---|---|---|
-| ![Dashboard overview with station map](Screenshots/dashboard-map.png) | ![Stations list](Screenshots/stations-list.png) | ![Alarms management](Screenshots/alarms.png) |
+| ![Dashboard-Übersicht mit Stationskarte](Screenshots/dashboard-map.png) | ![Stationsliste](Screenshots/stations-list.png) | ![Alarmverwaltung](Screenshots/alarms.png) |
 
 ---
 
-## Features
+## Funktionen
 
-### Global dashboard (KPIs)
+### Globales Dashboard (Kennzahlen)
 
-- Live counters: stations, tracked variables, active alarms, registered users and projects
-- Database health indicator (X/Y services operational, shown as an uptime percentage)
-- Auto-refresh with a "last generated at" timestamp
+- Live-Zähler: Stationen, erfasste Variablen, aktive Alarme, registrierte Benutzer und Projekte
+- Anzeige des Datenbankzustands (X/Y Dienste betriebsbereit, als Verfügbarkeit in Prozent)
+- Automatische Aktualisierung mit Zeitstempel „zuletzt generiert um"
 
-### Interactive station map
+### Interaktive Stationskarte
 
-- Built with **Leaflet.js**; every geolocated station is plotted with a color-coded marker:
-  - 🟢 Active (last seen less than 1 hour ago)
-  - 🟠 Recently active (less than 24 hours ago)
-  - ⚪ Inactive
-  - 🔴 Has an active alarm
-- A popup per station with quick links to its detailed graphs and attributes
-- Automatic fit-to-bounds so the map always frames all visible stations
+- Erstellt mit **Leaflet.js**; jede georeferenzierte Station wird mit einem farbigen Marker dargestellt:
+  - 🟢 Aktiv (zuletzt vor weniger als 1 Stunde gesehen)
+  - 🟠 Kürzlich aktiv (vor weniger als 24 Stunden)
+  - ⚪ Inaktiv
+  - 🔴 Hat einen aktiven Alarm
+- Ein Popup pro Station mit Schnellzugriff auf die detaillierten Diagramme und Attribute
+- Automatische Anpassung des Kartenausschnitts, sodass alle sichtbaren Stationen im Bild sind
 
-### Alarms and notifications
+### Alarme und Benachrichtigungen
 
-- Real-time table of active alarms, linked to the station that triggered them
-- Notification bell in the top navigation with an unread counter, mark-as-read (single or bulk), loaded asynchronously
-- Dedicated alarm management pages (create, edit, delete)
+- Echtzeit-Tabelle der aktiven Alarme, verknüpft mit der Station, die sie ausgelöst hat
+- Benachrichtigungsglocke in der oberen Navigation mit Zähler für ungelesene Einträge, Als-gelesen-Markieren (einzeln oder gesammelt), asynchron geladen
+- Eigene Seiten zur Alarmverwaltung (erstellen, bearbeiten, löschen)
 
-### Users, roles and permissions
+### Benutzer, Rollen und Berechtigungen
 
-- Role-based access control (RBAC): each user has a role, and each role is granted access to specific modules and pages
-- The sidebar is **filtered dynamically on the server** according to the logged-in user's permissions, so users only see the modules they may access
-- A "super admin" fallback role has access to everything
+- Rollenbasierte Zugriffskontrolle (RBAC): Jeder Benutzer hat eine Rolle, und jeder Rolle sind bestimmte Module und Seiten zugewiesen
+- Die Seitenleiste wird **serverseitig dynamisch gefiltert**, abhängig von den Berechtigungen des angemeldeten Benutzers, sodass Benutzer nur die Module sehen, auf die sie zugreifen dürfen
+- Eine Rückfallrolle „Super-Admin" hat Zugriff auf alles
 
-### Calculated variables and auto-validation
+### Berechnete Variablen und automatische Validierung
 
-- A separate service handles derived variables (formulas applied to raw sensor data), each with a trigger type
-- A separate auto-validation service automatically flags anomalies in incoming data
+- Ein separater Dienst verarbeitet abgeleitete Variablen (Formeln, die auf rohe Sensordaten angewendet werden), jeweils mit einem Auslösertyp
+- Ein separater Dienst zur automatischen Validierung markiert Auffälligkeiten in eingehenden Daten automatisch
 
-### Administration tools
+### Administrationswerkzeuge
 
-- System configuration page
-- Data extraction and reporting tools
-- Reference data management
+- Seite für die Systemkonfiguration
+- Werkzeuge für Datenexport und Berichte
+- Verwaltung von Referenzdaten
 
 ---
 
-## Architecture
+## Architektur
 
 ```mermaid
 flowchart LR
-    U([Operator]) --> B[Browser<br/>Bootstrap / jQuery / Leaflet]
-    B -->|page request| P[PHP pages]
-    B -.->|AJAX: notifications| P
-    P --> L[Shared layout<br/>sidebar, top nav, permissions, footer]
-    P --> M[DatabaseManager<br/>singleton, one PDO connection per database]
-    M --> D[(5 service databases<br/>MySQL)]
+    U([Bediener]) --> B[Browser<br/>Bootstrap / jQuery / Leaflet]
+    B -->|Seitenanfrage| P[PHP-Seiten]
+    B -.->|AJAX: Benachrichtigungen| P
+    P --> L[Gemeinsames Layout<br/>Seitenleiste, Navigation, Berechtigungen, Fußzeile]
+    P --> M[DatabaseManager<br/>Singleton, eine PDO-Verbindung pro Datenbank]
+    M --> D[(5 Dienst-Datenbanken<br/>MySQL)]
 ```
 
-### Database layer
+### Datenbankschicht
 
-A single `DatabaseManager`-style class (singleton pattern, one PDO connection per database, instantiated lazily) centralizes all connections. It exposes a `testAllConnections()` health check, which powers the "X/Y databases operational" KPI on the dashboard.
+Eine einzelne Klasse im Stil eines `DatabaseManager` (Singleton-Muster, eine PDO-Verbindung pro Datenbank, verzögert instanziiert) bündelt alle Verbindungen. Sie stellt eine Prüffunktion `testAllConnections()` bereit, die die Kennzahl „X/Y Datenbanken betriebsbereit" im Dashboard speist.
 
-### Page template pattern
+### Seiten-Template-Muster
 
-Each page follows a simple template/layout pattern: the page script builds its own data and HTML fragment (using `ob_start()`), then hands it to a shared layout file. The layout renders the sidebar, the top navigation, the permission check and the footer around it, which keeps shared UI logic in one place instead of duplicating it across dozens of pages.
+Jede Seite folgt einem einfachen Template-/Layout-Muster: Das Seitenskript erstellt seine eigenen Daten und sein eigenes HTML-Fragment (mit `ob_start()`) und übergibt es an eine gemeinsame Layout-Datei. Das Layout rendert darum herum die Seitenleiste, die obere Navigation, die Berechtigungsprüfung und die Fußzeile — so bleibt die gemeinsame UI-Logik an einer Stelle, statt in Dutzenden von Seiten dupliziert zu werden.
 
 ---
 
-## Tech Stack
+## Tech-Stack
 
-| Layer | Technology | Purpose |
+| Schicht | Technologie | Zweck |
 |---|---|---|
-| Backend | PHP (PDO, prepared statements) | Server-side logic and data access |
-| Database | MySQL (5 separate service databases) | Stations, variables, alarms, users and permissions |
-| Frontend | Bootstrap, jQuery, Font Awesome | Responsive UI and asynchronous interactions |
-| Maps | Leaflet.js | Interactive station map |
-| Authentication | PHP sessions, role-based permissions | Login and access control |
-| Tooling | XAMPP, Adminer, FileZilla | Local development, database administration, file transfer |
+| Backend | PHP (PDO, Prepared Statements) | Serverseitige Logik und Datenzugriff |
+| Datenbank | MySQL (5 separate Dienst-Datenbanken) | Stationen, Variablen, Alarme, Benutzer und Berechtigungen |
+| Frontend | Bootstrap, jQuery, Font Awesome | Responsive Oberfläche und asynchrone Interaktionen |
+| Karten | Leaflet.js | Interaktive Stationskarte |
+| Authentifizierung | PHP-Sessions, rollenbasierte Berechtigungen | Anmeldung und Zugriffskontrolle |
+| Werkzeuge | XAMPP, Adminer, FileZilla | Lokale Entwicklung, Datenbankverwaltung, Dateiübertragung |
 
 ---
 
-## Technical Challenges and Learnings
+## Technische Herausforderungen und Erkenntnisse
 
-- **Working across five databases instead of one.** I designed a clean connection layer so that every page could query the right database without duplicating connection logic. Each data-fetching block is wrapped defensively, so a single slow or unavailable service does not break the whole dashboard: the page still renders, with partial data.
+- **Arbeiten mit fünf Datenbanken statt einer.** Ich habe eine saubere Verbindungsschicht entworfen, sodass jede Seite die richtige Datenbank abfragen konnte, ohne Verbindungslogik zu duplizieren. Jeder Block zum Abrufen von Daten ist defensiv gekapselt, sodass ein einzelner langsamer oder ausgefallener Dienst nicht das gesamte Dashboard lahmlegt: Die Seite wird weiterhin gerendert, dann mit Teildaten.
 
-- **Building a real role-based permission system.** Instead of hard-coding "if admin, show X", permissions are loaded from the database per role and used to filter both what appears in the sidebar and what is actually reachable when someone requests a page URL directly. Getting the "super admin sees everything, everyone else sees what their role allows" logic right, without repeating checks everywhere, took several iterations.
+- **Aufbau eines echten rollenbasierten Berechtigungssystems.** Statt „wenn Admin, zeige X" fest einzucodieren, werden die Berechtigungen pro Rolle aus der Datenbank geladen und dazu verwendet, sowohl zu filtern, was in der Seitenleiste erscheint, als auch, was tatsächlich erreichbar ist, wenn jemand eine Seiten-URL direkt aufruft. Die Logik „Super-Admin sieht alles, alle anderen sehen, was ihre Rolle erlaubt" richtig umzusetzen, ohne Prüfungen überall zu wiederholen, erforderte mehrere Iterationen.
 
-- **Real-time-feeling notifications without a websocket stack.** New alarms and events are polled and marked read or unread through lightweight AJAX calls, which update the badge and the dropdown without a full page reload. It was a good lesson in delivering "real-time enough" behavior with simple tools when a push-based architecture is not justified.
+- **Benachrichtigungen mit Echtzeit-Gefühl ohne Websocket-Stack.** Neue Alarme und Ereignisse werden per Polling abgefragt und über leichtgewichtige AJAX-Aufrufe als gelesen oder ungelesen markiert, wodurch Zähler und Dropdown ohne vollständiges Neuladen der Seite aktualisiert werden. Es war eine gute Lektion darin, mit einfachen Mitteln „Echtzeit genug" zu erreichen, wenn eine Push-Architektur nicht gerechtfertigt ist.
 
-- **Rendering a live, color-coded map efficiently.** With potentially hundreds of stations, I had to be careful about how markers, popups and status colors were computed and injected, and to make the map handle the case of zero geolocated stations gracefully instead of showing a broken or empty map.
+- **Effizientes Rendern einer Live-Karte mit Farbcodierung.** Bei potenziell Hunderten von Stationen musste ich darauf achten, wie Marker, Popups und Statusfarben berechnet und eingefügt werden, und dafür sorgen, dass die Karte den Fall ohne georeferenzierte Stationen sauber behandelt, statt eine defekte oder leere Karte zu zeigen.
 
-- **Keeping the UI consistent across dozens of pages.** Injecting page-specific content into a shared layout forced me to decide which state belongs to each page (title, breadcrumbs, extra CSS and JavaScript) and which is truly global — a practical lesson in separation of concerns in a language that does not enforce it.
-
----
-
-## Confidentiality
-
-This project was developed for a company during my internship. **The source code, the database schema and any real data are intentionally not published here**, in order to respect the company's confidentiality and intellectual property. This README describes the system, my role, the architecture and the technical challenges I worked through, without exposing proprietary code or data.
+- **Konsistente Oberfläche über Dutzende von Seiten.** Das Einfügen seitenspezifischer Inhalte in ein gemeinsames Layout zwang mich zu entscheiden, welcher Zustand zu jeder Seite gehört (Titel, Breadcrumbs, zusätzliches CSS und JavaScript) und was wirklich global ist — eine praktische Lektion in der Trennung von Zuständigkeiten in einer Sprache, die sie nicht erzwingt.
 
 ---
 
-## Author
+## Vertraulichkeit
 
-**El-Tousy** — Computer Science student, Morocco
+Dieses Projekt wurde während meines Praktikums für ein Unternehmen entwickelt. **Der Quellcode, das Datenbankschema und alle echten Daten werden hier bewusst nicht veröffentlicht**, um die Vertraulichkeit und das geistige Eigentum des Unternehmens zu wahren. Dieses README beschreibt das System, meine Rolle, die Architektur und die technischen Herausforderungen, die ich bewältigt habe, ohne proprietären Code oder Daten offenzulegen.
+
+---
+
+## Autor
+
+**El-Tousy** — Informatikstudentin, Marokko
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/El-Tousy)
 [![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:leilaeltousy@gmail.com)
 
 ---
 
-## License
+## Lizenz
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+Veröffentlicht unter der MIT-Lizenz. Siehe [LICENSE](LICENSE) für Details.
 
 ---
 
 <div align="center">
 
-⭐ If you find this project useful, consider leaving a star.
+⭐ Wenn dir dieses Projekt nützlich erscheint, hinterlasse gerne einen Stern.
 
 </div>
